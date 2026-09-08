@@ -1,7 +1,8 @@
 // ============================================================
 // KRAKATAU ANDOVER GCS — SERVER CONFIGURATION
 // ============================================================
-const API_BASE_URL = "http://192.168.0.110:5001";
+// const API_BASE_URL = "http://192.168.0.110:5001";
+const API_BASE_URL = "https://api.krakatauandover.my.id";
 
 const CONFIG = {
     HEARTBEAT: `${API_BASE_URL}/ping_gcs`,
@@ -12,7 +13,7 @@ const CONFIG = {
         STATUS_SURFACE: `${API_BASE_URL}/camera_status/surface`,
         STATUS_UNDERWATER: `${API_BASE_URL}/camera_status/underwater`
     },
-    
+
     PHOTOS: {
         SURFACE: `${API_BASE_URL}/api/photos/surface`,
         UNDERWATER: `${API_BASE_URL}/api/photos/underwater`,
