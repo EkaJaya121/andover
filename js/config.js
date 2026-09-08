@@ -2,7 +2,7 @@
 // KRAKATAU ANDOVER GCS — SERVER CONFIGURATION
 // ============================================================
 // const API_BASE_URL = "http://192.168.0.110:5001";
-const API_BASE_URL = "https://fin.krakatauandover.my.id";
+const API_BASE_URL = "https://api.krakatauandover.my.id";
 
 const CONFIG = {
     HEARTBEAT: `${API_BASE_URL}/ping_gcs`,
