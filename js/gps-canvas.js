@@ -17,7 +17,8 @@ const GPSRenderer = {
     view: {
         centerX: 0,
         centerY: 0,
-        metersPerPixel: 0.25
+        metersPerPixel: 0.25,
+        zoom: 3.0
     },
 
     init() {
@@ -55,27 +56,38 @@ const GPSRenderer = {
 
     calculateView(points, W, H) {
         if (!points.length) return;
-
+    
         const xs = points.map(p => p.x);
         const ys = points.map(p => p.y);
-
+    
         const minX = Math.min(...xs, 0);
         const maxX = Math.max(...xs, 0);
         const minY = Math.min(...ys, 0);
         const maxY = Math.max(...ys, 0);
-
+    
         const spanX = Math.max(maxX - minX, 2) * 1.25;
         const spanY = Math.max(maxY - minY, 2) * 1.25;
-
-        const usableW = Math.max(W - this.plotLeft - this.plotRight, 100);
-        const usableH = Math.max(H - this.plotTop - this.plotBottom, 100);
-
-        this.view.metersPerPixel = Math.max(
+    
+        const usableW = Math.max(
+            W - this.plotLeft - this.plotRight,
+            100
+        );
+    
+        const usableH = Math.max(
+            H - this.plotTop - this.plotBottom,
+            100
+        );
+    
+        const baseMetersPerPixel = Math.max(
             spanX / usableW,
             spanY / usableH,
             0.01
         );
-
+    
+        // Zoom IN
+        this.view.metersPerPixel =
+            baseMetersPerPixel / this.view.zoom;
+    
         this.view.centerX = (minX + maxX) / 2;
         this.view.centerY = (minY + maxY) / 2;
     },
