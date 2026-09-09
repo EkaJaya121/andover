@@ -18,7 +18,7 @@ const GPSRenderer = {
         centerX: 0,
         centerY: 0,
         metersPerPixel: 0.25,
-        zoom: 10.0
+        zoom: 0.5
     },
 
     init() {
