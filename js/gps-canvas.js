@@ -10,7 +10,10 @@
 // - Speed <= 0.5 km/h dianggap kondisi diam
 // - Perubahan posisi < 0.7 meter diabaikan
 // ============================================================
-
+candidateX: null,
+candidateY: null,
+candidateCount: 0,
+confirmCount: 3,
 const GPSRelative = {
 
     // --------------------------------------------------------
@@ -196,21 +199,33 @@ const GPSRelative = {
         // ====================================================
 
         if (distance < this.positionThreshold) {
-
-            return {
-                x: this.lastX,
-                y: this.lastY
-            };
+            // dianggap noise, reset kandidat
+            this.candidateCount = 0;
+            return { x: this.lastX, y: this.lastY };
         }
-
-
+        if (this.candidateCount === 0 ||
+            Math.hypot(x - this.candidateX, y - this.candidateY) < this.positionThreshold) {
+            // konsisten dengan kandidat sebelumnya
+            this.candidateX = x;
+            this.candidateY = y;
+            this.candidateCount++;
+        } else {
+            // arah baru lagi, mulai hitung ulang
+            this.candidateX = x;
+            this.candidateY = y;
+            this.candidateCount = 1;
+        }
+        if (this.candidateCount < this.confirmCount) {
+            // belum cukup bukti pergerakan nyata, tahan di posisi lama
+            return { x: this.lastX, y: this.lastY };
+        }
         // ====================================================
         // POSISI VALID
         // ====================================================
 
         this.lastX = x;
         this.lastY = y;
-
+        this.candidateCount = 0;
 
         return {
             x: this.lastX,
